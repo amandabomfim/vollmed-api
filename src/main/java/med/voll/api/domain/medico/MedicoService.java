@@ -26,4 +26,19 @@ public class MedicoService {
         return medico;
 
     }
+
+    public Medico alterar(DadosAtualizacaoMedico dados){
+        Medico medico = medicoRepository.findById(dados.id()).orElseThrow(()->new RuntimeException("Médico não encontrado"));
+
+        if (dados.nome() != null){
+            medico.setNome(dados.nome());
+        }else if(dados.telefone() != null){
+            medico.setTelefone(dados.telefone());
+        } else if (dados.endereco() != null) {
+            medico.setEndereco(new Endereco((dados.endereco())));
+        }
+
+        medicoRepository.save(medico);
+        return medico;
+    }
 }
