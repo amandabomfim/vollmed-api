@@ -47,4 +47,15 @@ public class MedicoService {
     public Page<DadosListagemMedico> listar(Pageable pagina){
         return  medicoRepository.findAllByAtivoTrue(pagina).map(DadosListagemMedico::new);
     }
+
+    public void excluir(Long id){
+        Medico medico = medicoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Médico não encontrado"));
+
+        if (medico.getAtivo() == false){
+            throw new RuntimeException("Registro inativo");
+        }
+
+        medico.setAtivo(false);
+    }
 }
