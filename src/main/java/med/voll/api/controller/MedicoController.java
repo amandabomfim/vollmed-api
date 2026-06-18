@@ -21,11 +21,13 @@ public class MedicoController {
     @Autowired
     private MedicoRepository repository;
 
+    @Autowired
+    private MedicoService service;
+
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
-        var medico = new Medico(dados);
-        repository.save(medico);
+       Medico medico = service.cadastrar(dados);
 
         var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
 
@@ -38,7 +40,7 @@ public class MedicoController {
         return ResponseEntity.ok(page);
     }
 
-    @PutMapping
+    @PatchMapping
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados) {
         var medico = repository.getReferenceById(dados.id());
