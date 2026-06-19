@@ -19,6 +19,6 @@ public record DadosCadastroPaciente(
         @NotBlank
         @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}")
         String cpf,
-
+        
         @NotNull @Valid DadosEndereco endereco) {
 }

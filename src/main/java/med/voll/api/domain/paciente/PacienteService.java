@@ -1,7 +1,10 @@
 package med.voll.api.domain.paciente;
 
 import med.voll.api.domain.endereco.Endereco;
+import med.voll.api.domain.medico.DadosListagemMedico;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,5 +24,9 @@ public class PacienteService {
 
         pacienteRepository.save(paciente);
         return paciente;
+    }
+
+    public Page<DadosListagemPaciente> listar(Pageable pagina){
+        return  pacienteRepository.findAllByAtivoTrue(pagina).map(DadosListagemPaciente::new);
     }
 }
