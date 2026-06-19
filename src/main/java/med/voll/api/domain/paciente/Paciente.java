@@ -7,6 +7,7 @@ import med.voll.api.domain.endereco.Endereco;
 @Table(name = "pacientes")
 @Entity(name = "Paciente")
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

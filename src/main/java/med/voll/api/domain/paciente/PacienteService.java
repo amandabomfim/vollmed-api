@@ -1,7 +1,9 @@
 package med.voll.api.domain.paciente;
 
 import med.voll.api.domain.endereco.Endereco;
+import med.voll.api.domain.medico.DadosAtualizacaoMedico;
 import med.voll.api.domain.medico.DadosListagemMedico;
+import med.voll.api.domain.medico.Medico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,5 +30,18 @@ public class PacienteService {
 
     public Page<DadosListagemPaciente> listar(Pageable pagina){
         return  pacienteRepository.findAllByAtivoTrue(pagina).map(DadosListagemPaciente::new);
+    }
+
+    public Paciente alterar(DadosAtualizacaoPaciente dados) {
+        Paciente paciente = pacienteRepository.findById(dados.id()).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+        if (dados.nome() != null) {
+            paciente.setNome(dados.nome());
+        } else if (dados.telefone() != null) {
+            paciente.setTelefone(dados.telefone());
+        } else if (dados.endereco() != null) {
+            paciente.setEndereco(new Endereco((dados.endereco())));
+        }
+
+        return paciente;
     }
 }
