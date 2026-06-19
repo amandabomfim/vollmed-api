@@ -1,9 +1,6 @@
 package med.voll.api.domain.paciente;
 
 import med.voll.api.domain.endereco.Endereco;
-import med.voll.api.domain.medico.DadosAtualizacaoMedico;
-import med.voll.api.domain.medico.DadosListagemMedico;
-import med.voll.api.domain.medico.Medico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,5 +40,16 @@ public class PacienteService {
         }
 
         return paciente;
+    }
+
+    public void excluir(Long id) {
+        Paciente paciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Médico não encontrado"));
+
+        if (paciente.getAtivo() == false) {
+            throw new RuntimeException("Registro inativo");
+        }
+
+        paciente.setAtivo(false);
     }
 }
